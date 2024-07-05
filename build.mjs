@@ -79,13 +79,14 @@ const buildOptions = {
   bundle: true,
   define: {
     "process.env.NODE_ENV": IS_DEV ? '"development"' : '"production"',
+    "process.env.IS_PREACT": '"false"',
   },
   entryPoints: [ "src/index.jsx" ],
   minify: !IS_DEV,
   outdir: "build",
   sourceRoot: "src",
   plugins: [ IS_DEV ? serveBuildPlugin : packageNotePlugin ],
-  target: [ "chrome58" , "firefox57", "safari11", "edge16" ],
+  target: [ "chrome58" , "firefox57", "safari11", "edge18" ],
 };
 
 if (IS_DEV) {
