@@ -6,9 +6,13 @@ embed.
 
 # Getting Started
 
-1. Clone this repository
-2. Install dependencies with `yarn install`
-3. Create a build with `yarn build`
+1. Clone this repository, e.g., `git clone git@github.com:alloy-org/amplenote-embed-starter.git`
+2. If you will be creating your own GitHub repo (recommended for most)
+  a. Rename the folder, e.g., `mv amplenote-embed-starter my-project`
+  b. `cd` into your project directory, remove the git origin, e.g., `git remote remove origin`  
+  c. Copy [Github's instructions in the "Push an existing repository from the command line"](https://public.amplenote.com/H3oeWCPyzTm3tkG9k41KgVn6) section
+3. Install dependencies with `yarn install`
+4. Create a build with `yarn build`
 
 # Output
 
