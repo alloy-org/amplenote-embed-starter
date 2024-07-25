@@ -35,7 +35,7 @@ function buildMarkdown(html) {
 \`\`\`
 {
   appOption(app) {
-    app.openSidebarEmbed();
+    app.openSidebarEmbed(1);
   },
   async renderEmbed(app) {  
     try {
