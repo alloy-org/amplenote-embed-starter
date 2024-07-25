@@ -43,7 +43,7 @@ function buildMarkdown(html) {
       const htmlMatch = noteContent.match(/\\n\[\^\d+\]: \[html\]\(\)\\n+(.+)\s*$/s);
       return htmlMatch[1];
     } catch (error) {
-      return \`<div><em>renderEmbed error:</em> ${ error }</div>\`;
+      return \`<div><em>renderEmbed error:</em> ${ error.toString() }</div>\`;
     }
   },
   onEmbedCall(app, ...args) {
