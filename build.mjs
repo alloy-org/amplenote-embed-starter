@@ -39,8 +39,14 @@ function buildMarkdown(html) {
   appOption(app) {
     app.openSidebarEmbed();
   },
-  renderEmbed(app) {
-    return \`${ html }\`;
+  async renderEmbed(app) {  
+    try {
+      const noteContent = await app.getNoteContent({ uuid: app.context.pluginUUID });
+      const htmlMatch = noteContent.match(/\\n\[\^\d+\]: \[html\]\(\)\\n+(.+)\s*$/s);
+      return htmlMatch[1];
+    } catch (error) {
+      return \`<div><em>renderEmbed error:</em> ${ error }</div>\`;
+    }
   },
   onEmbedCall(app, ...args) {
     console.log("onEmbedCall", args);
@@ -48,7 +54,12 @@ function buildMarkdown(html) {
   },
 }
 \`\`\`
-  `;
+
+[html][^1]
+
+[^1]: [html]()
+
+  ${ html }`;
 }
 
 const packageNotePlugin = {
