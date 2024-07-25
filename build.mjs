@@ -16,16 +16,14 @@ function buildHTML(javascriptContent, javascriptPath) {
     throw new Error("one of javascriptContent or javascriptPath must be provided");
   }
 
-  return `
-<!DOCTYPE html>
+  return `<!DOCTYPE html>
 <html lang="en">
 <head><meta charset="utf-8" /></head>
 <body>
     <div id="root"></div>
     ${ scriptTag }
 </body>
-</html>
-  `;
+</html>`;
 }
 
 function buildMarkdown(html) {
@@ -59,7 +57,7 @@ function buildMarkdown(html) {
 
 [^1]: [html]()
 
-  ${ html }`;
+${ html.replace(/^/mg, "    ") }`;
 }
 
 const packageNotePlugin = {
