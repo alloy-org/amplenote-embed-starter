@@ -6,9 +6,10 @@ embed.
 
 # Getting Started
 
-1. Clone this repository
-2. Install dependencies with `yarn install`
-3. Create a build with `yarn build`
+1. Fork this repo, choosing a repo name appropriate to the plugin you will build.
+2. `git clone` your forked repo, following GitHub's instructions
+3. Install dependencies with `yarn install`
+4. Create a build with `yarn build`
 
 # Output
 
