@@ -26,7 +26,7 @@ function buildHTML(javascriptContent, javascriptPath) {
 </html>`;
 }
 
-function buildMarkdown(html) {
+function buildMarkdown() {
   return `
 |||
 |-|-|
@@ -39,9 +39,10 @@ function buildMarkdown(html) {
   },
   async renderEmbed(app) {  
     try {
-      const noteContent = await app.getNoteContent({ uuid: app.context.pluginUUID });
-      const htmlMatch = noteContent.match(/\\n\[\^\d+\]: \[html\]\(\)\\n+(.+)\s*$/s);
-      return htmlMatch[1];
+      const attachments = await app.getNoteAttachments(app.context.pluginUUID);
+      const attachment = attachments.find(attachment => attachment.name === "build.html.json");
+      if (!attachment) throw new Error("build.html.json attachment not found");
+      return this._getAttachmentContent(app, attachment.uuid);
     } catch (error) {
       return \`<div><em>renderEmbed error:</em> ${ error.toString() }</div>\`;
     }
@@ -50,14 +51,21 @@ function buildMarkdown(html) {
     console.log("onEmbedCall", args);
     return "result";
   },
+  
+  async _getAttachmentContent(app, attachmentUUID) {
+    const url = await app.getAttachmentURL(attachmentUUID);
+   
+    const proxyURL = new URL("https://plugins.amplenote.com/cors-proxy");
+    proxyURL.searchParams.set("apiurl", url);
+
+    const response = await fetch(proxyURL);
+    return response.text();
+  }
 }
 \`\`\`
 
-[html][^1]
-
-[^1]: [html]()
-
-${ html.replace(/^/mg, "    ") }`;
+[build.html.json](./build.html.json)
+`;
 }
 
 const packageNotePlugin = {
@@ -73,7 +81,10 @@ const packageNotePlugin = {
         const [ file ] = outputFiles;
 
         const htmlContent = buildHTML(file.text);
-        const markdownContent = buildMarkdown(htmlContent);
+        const markdownContent = buildMarkdown();
+
+        const htmlPath = path.join(path.dirname(file.path), "build.html.json");
+        fs.writeFileSync(htmlPath, htmlContent);
 
         const markdownPath = path.join(path.dirname(file.path), "note.md");
         fs.writeFileSync(markdownPath, markdownContent);
