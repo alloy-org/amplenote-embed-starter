@@ -1,5 +1,6 @@
 import serve, { error, log } from "create-serve";
 import esbuild from "esbuild";
+import JSZip from "jszip";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -74,7 +75,7 @@ const packageNotePlugin = {
     const options = build.initialOptions;
     options.write = false;
 
-    build.onEnd(({ errors, outputFiles }) => {
+    build.onEnd(async ({ errors, outputFiles }) => {
       if (errors.length > 0) {
         console.error(errors);
       } else {
@@ -83,11 +84,13 @@ const packageNotePlugin = {
         const htmlContent = buildHTML(file.text);
         const markdownContent = buildMarkdown();
 
-        const htmlPath = path.join(path.dirname(file.path), "build.html.json");
-        fs.writeFileSync(htmlPath, htmlContent);
+        const zip = new JSZip();
+        zip.file("build.html.json", htmlContent);
+        zip.file("note.md", markdownContent);
+        const zipContent = await zip.generateAsync({ type: "nodebuffer" });
 
-        const markdownPath = path.join(path.dirname(file.path), "note.md");
-        fs.writeFileSync(markdownPath, markdownContent);
+        const zipPath = path.join(path.dirname(file.path), "plugin.zip");
+        fs.writeFileSync(zipPath, zipContent);
       }
     });
   }
