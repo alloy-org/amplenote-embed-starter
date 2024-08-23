@@ -9,11 +9,17 @@ const onChange = debounce(
     window.callAmplenotePlugin("change", data);
   },
   1000,
-  { maxWait: 10000 }
+  { maxWait: 5000 }
 );
 
 export default function Embed() {
-  const { error, status, value } = useAsyncEffect(() => window.callAmplenotePlugin("load"), []);
+  const { error, status, value } = useAsyncEffect(
+    async () => {
+      const data = await window.callAmplenotePlugin("load");
+      return data ? JSON.parse(data) : null;
+    },
+    []
+  );
 
   if (status === "loading") {
     return (<div>loading</div>);
