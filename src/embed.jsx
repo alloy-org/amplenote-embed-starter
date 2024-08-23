@@ -50,7 +50,7 @@ export default function Embed() {
   } else {
     return (
       <>
-        <div style={ { height: "500px", position: "relative" } }>
+        <div className="container">
           <Excalidraw
             initialData={ value }
             onChange={ onChange }
@@ -58,7 +58,7 @@ export default function Embed() {
           {
             isSaving
               ? (
-                <div style={ { color: "#8593A3", fontSize: 14, left: 0, top: 0, position: "absolute", zIndex: 100 } }>
+                <div className="saving-message">
                   saving...
                 </div>
               )
