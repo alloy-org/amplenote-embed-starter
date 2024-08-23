@@ -13,9 +13,12 @@ embed.
 
 # Output
 
-The output of the build step is a markdown note that can be
-used as a plugin note in Amplenote. Import this note and
-enable it as a plugin in your Amplenote account.
+The output of the build step is a zip file containing a markdown note
+that can be used as a plugin note in Amplenote. Import this zip file
+as a markdown archive in Amplenote and enable it as a plugin in your 
+Amplenote account. The zip file contains an attachment containing
+the potentially-large plugin code, to avoid creating an extremely
+large note.
 
 The following plugin actions are implemented in the plugin:
 
