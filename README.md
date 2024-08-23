@@ -20,6 +20,11 @@ Amplenote account. The zip file contains an attachment containing
 the potentially-large plugin code, to avoid creating an extremely
 large note.
 
+If you have already created the plugin note, you can update the build
+itself directly by deleting the build.html.json attachment in the note 
+then adding the build.html.json file from build/plugin.zip as an 
+attachment.
+
 The following plugin actions are implemented in the plugin:
 
 - `appOption` triggering the plugin via the quick open menu will open a sidebar embed for the plugin
