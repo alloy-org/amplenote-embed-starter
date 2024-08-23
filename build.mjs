@@ -89,7 +89,13 @@ const packageNotePlugin = {
         zip.file("note.md", markdownContent);
         const zipContent = await zip.generateAsync({ type: "nodebuffer" });
 
-        const zipPath = path.join(path.dirname(file.path), "plugin.zip");
+        const outputDirectory = path.dirname(file.path);
+
+        if (!fs.existsSync(outputDirectory)) {
+          fs.mkdirSync(outputDirectory);
+        }
+
+        const zipPath = path.join(outputDirectory, "plugin.zip");
         fs.writeFileSync(zipPath, zipContent);
       }
     });
