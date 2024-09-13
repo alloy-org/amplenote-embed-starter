@@ -1,4 +1,4 @@
-import serve, { error, log } from "create-serve";
+import serve, { error } from "create-serve";
 import esbuild from "esbuild";
 import JSZip from "jszip";
 import fs from "node:fs";
