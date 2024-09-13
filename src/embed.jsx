@@ -1,27 +1,21 @@
+import { dequal } from "dequal/lite"
 import { Excalidraw, serializeAsJSON } from "@excalidraw/excalidraw"
 import debounce from "lodash.debounce"
 import React, { useMemo, useRef, useState } from "react"
 import { useAsyncEffect } from "@react-hook/async"
 
-export default function Embed() {
-  const [ isSaving, setIsSaving ] = useState(false);
-
-  const { error, status, value } = useAsyncEffect(
-    async () => {
-      const data = await window.callAmplenotePlugin("load");
-      return data ? JSON.parse(data) : null;
-    },
-    []
-  );
-
+function useOnChange(initialData, setIsSaving) {
+  // So we can keep track of overlapping pending saves to know when there is no pending save remaining
   const saveCounterRef = useRef(1);
 
-  const onChange = useMemo(
+  // Excalidraw will call onChange when the mouse moves, which is not something we care to persist - only when the
+  // data actually changes, as persistence requires calling into the plugin and updating the note.
+  const lastDataRef = useRef(null);
+
+  return useMemo(
     () => {
       const save = debounce(
-        (elements, appState, _files, expectedSaveCounter) => {
-          const data = serializeAsJSON(elements, appState);
-
+        (data, expectedSaveCounter) => {
           (async () => {
             try {
               await window.callAmplenotePlugin("change", data);
@@ -37,13 +31,32 @@ export default function Embed() {
       );
 
       return (elements, appState, _files) => {
+        const data = serializeAsJSON(elements, appState);
+
+        if (dequal(data, lastDataRef.current)) return;
+        lastDataRef.current = data;
+
         setIsSaving(true);
         saveCounterRef.current += 1;
-        save(elements, appState, _files, saveCounterRef.current);
+        save(data, saveCounterRef.current);
       };
     },
     []
-  )
+  );
+}
+
+export default function Embed() {
+  const [ isSaving, setIsSaving ] = useState(false);
+
+  const { status, value: initialData } = useAsyncEffect(
+    async () => {
+      const data = await window.callAmplenotePlugin("load");
+      return data ? JSON.parse(data) : null;
+    },
+    []
+  );
+
+  const onChange = useOnChange(initialData, setIsSaving);
 
   if (status === "loading") {
     return (<div>loading</div>);
@@ -52,7 +65,7 @@ export default function Embed() {
       <>
         <div className="container">
           <Excalidraw
-            initialData={ value }
+            initialData={ initialData }
             onChange={ onChange }
           />
           {
