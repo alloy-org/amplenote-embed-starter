@@ -70,11 +70,6 @@ const serveBuildPlugin = {
     options.write = false;
     options.sourcemap = true;
 
-    // `window.callAmplenotePlugin` will be defined in the real embed environment
-    options.banner = {
-      js: `(() => { window.callAmplenotePlugin = function(...args) { console.log("window.callAmplenotePlugin", args); }; })();`,
-    }
-
     build.onEnd(({ errors, outputFiles }) => {
       if (errors.length > 0) {
         error(`Build failed: ${ JSON.stringify(errors) }`);
