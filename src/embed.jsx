@@ -3,7 +3,7 @@ import debounce from "lodash.debounce"
 import React, { useMemo, useRef, useState } from "react"
 import { useAsyncEffect } from "@react-hook/async"
 
-function useOnChange(initialData, setIsSaving) {
+function useOnChange(setIsSaving) {
   // So we can keep track of overlapping pending saves to know when there is no pending save remaining
   const saveCounterRef = useRef(1);
 
@@ -32,6 +32,12 @@ function useOnChange(initialData, setIsSaving) {
       return (elements, appState, _files) => {
         const data = serializeAsJSON(elements, appState);
 
+        // After initial load, Excalidraw will call onChange
+        if (lastDataRef.current === null) {
+          lastDataRef.current = data;
+          return;
+        }
+
         if (data === lastDataRef.current) return;
         lastDataRef.current = data;
 
@@ -55,7 +61,7 @@ export default function Embed() {
     []
   );
 
-  const onChange = useOnChange(initialData, setIsSaving);
+  const onChange = useOnChange(setIsSaving);
 
   if (status === "loading") {
     return (<div>loading</div>);
