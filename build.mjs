@@ -39,7 +39,10 @@ const packageNotePlugin = {
       } else {
         const [ file ] = outputFiles;
 
-        const htmlContent = buildHTML(file.text);
+        const base64JavascriptContent = Buffer.from(file.text).toString("base64");
+        const htmlContent = fs.readFileSync(path.join("assets", "embed.html"), "utf8")
+          .replace("__BASE64JAVASCRIPTCONTENT__", base64JavascriptContent);
+
         const markdownContent = fs.readFileSync(path.join("assets", "note.md"), "utf8");
 
         const zip = new JSZip();
@@ -83,7 +86,7 @@ const serveBuildPlugin = {
             const javascriptPath = path.join(path.dirname(outputPath), "index.js");
             fs.writeFileSync(javascriptPath, file.text);
 
-            const htmlContent = buildHTML(null, "./index.js");
+            const htmlContent = fs.readFileSync(path.join("assets", "embed.dev.html"), "utf8");
             const htmlPath = path.join(path.dirname(outputPath), "index.html");
             fs.writeFileSync(htmlPath, htmlContent);
           } else if (outputPath.match(/\.js.map$/)) {
