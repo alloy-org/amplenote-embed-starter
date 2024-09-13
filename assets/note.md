@@ -1,9 +1,17 @@
+# Settings
+
 |||
 |-|-|
 |name|Excalidraw|
 |description|Draw content from within a note.|
 |icon|brush|
+\
 
+The source code that is built into the `build.html.json` file below can be [found at GitHub](https://github.com/alloy-org/amplenote-embed-starter/tree/excalidraw).
+
+\
+
+# Code
 
 ```javascript
 ({
@@ -52,4 +60,8 @@
 })
 ```
 
+\
+
 [build.html.json](./build.html.json)
+
+\
