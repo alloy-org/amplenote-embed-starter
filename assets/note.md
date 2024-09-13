@@ -1,23 +1,19 @@
 |||
 |-|-|
-|name|example plugin|
+|name|Excalidraw|
+|description|Draw content from within a note.|
+|icon|brush|
+
 
 ```javascript
 ({
+  appOption(app) {
+    app.openSidebarEmbed(1);
+  },
+
   async insertText(app) {
     await app.context.replaceSelection(`<object data="plugin://${ app.context.pluginUUID }" data-aspect-ratio="2" />`);
     return null;
-  },
-
-  async renderEmbed(app) {
-    try {
-      const attachments = await app.getNoteAttachments(app.context.pluginUUID);
-      const attachment = attachments.find(attachment => attachment.name === "build.html.json");
-      if (!attachment) throw new Error("build.html.json attachment not found");
-      return this._getAttachmentContent(app, attachment.uuid);
-    } catch (error) {
-      return `<div><em>renderEmbed error:</em> message => log(message, styles.red)</div>`;
-    }
   },
 
   async onEmbedCall(app, type, data) {
@@ -30,6 +26,17 @@
       const encodedData = btoa(data);
       app.context.updateEmbedArgs(encodedData);
       return true;
+    }
+  },
+
+  async renderEmbed(app) {
+    try {
+      const attachments = await app.getNoteAttachments(app.context.pluginUUID);
+      const attachment = attachments.find(attachment => attachment.name === "build.html.json");
+      if (!attachment) throw new Error("build.html.json attachment not found");
+      return this._getAttachmentContent(app, attachment.uuid);
+    } catch (error) {
+      return `<div><em>renderEmbed error:</em> message => log(message, styles.red)</div>`;
     }
   },
 
