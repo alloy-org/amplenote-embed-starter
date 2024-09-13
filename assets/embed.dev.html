@@ -25,9 +25,14 @@
           }
       </style>
       <script type="text/javascript">
-        // `window.callAmplenotePlugin` will be defined in the real embed environment
-        window.callAmplenotePlugin = function(...args) {
-          console.log("window.callAmplenotePlugin", args);
+        window.callAmplenotePlugin = function(type, data) {
+          if (type === "load") {
+            return localStorage.getItem("data");
+          } else if (type === "change") {
+            localStorage.setItem("data", data);
+
+            return true;
+          }
         }
       </script>
   </head>
