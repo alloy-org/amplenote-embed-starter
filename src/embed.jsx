@@ -1,4 +1,3 @@
-import { dequal } from "dequal/lite"
 import { Excalidraw, serializeAsJSON } from "@excalidraw/excalidraw"
 import debounce from "lodash.debounce"
 import React, { useMemo, useRef, useState } from "react"
@@ -33,7 +32,7 @@ function useOnChange(initialData, setIsSaving) {
       return (elements, appState, _files) => {
         const data = serializeAsJSON(elements, appState);
 
-        if (dequal(data, lastDataRef.current)) return;
+        if (data === lastDataRef.current) return;
         lastDataRef.current = data;
 
         setIsSaving(true);
