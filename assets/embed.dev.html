@@ -1,7 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
+      <meta charset="utf-8" />
+      <style>
+          body {
+              border: 1px solid #ccc;
+              border-radius: 4px;
+              height: calc(100vh - 2px);
+              margin: 0;
+          }
+
+          .container {
+              height: calc(100vh - 2px);
+              position: relative;
+          }
+
+          .saving-message {
+              color: #8593A3;
+              font-size: 14px;
+              left: 2px;
+              top: 0;
+              position: absolute;
+              z-index: 100;
+          }
+      </style>
       <script type="text/javascript">
         // `window.callAmplenotePlugin` will be defined in the real embed environment
         window.callAmplenotePlugin = function(...args) {
