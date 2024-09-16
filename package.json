@@ -8,7 +8,8 @@
   "private": false,
   "devDependencies": {
     "create-serve": "^1.0.1",
-    "esbuild": "^0.21.5"
+    "esbuild": "^0.21.5",
+    "esbuild-clean-plugin": "^1.0.0"
   },
   "dependencies": {
     "@excalidraw/excalidraw": "^0.17.6",

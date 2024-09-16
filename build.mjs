@@ -1,5 +1,6 @@
 import serve, { error } from "create-serve";
 import esbuild from "esbuild";
+import { cleanPlugin } from "esbuild-clean-plugin";
 import JSZip from "jszip";
 import fs from "node:fs";
 import path from "node:path";
@@ -83,9 +84,13 @@ const buildOptions = {
   },
   entryPoints: [ "src/index.jsx" ],
   minify: !IS_DEV,
+  metafile: true,
   outdir: "build",
   sourceRoot: "src",
-  plugins: [ IS_DEV ? serveBuildPlugin : packageNotePlugin ],
+  plugins: [
+    IS_DEV ? serveBuildPlugin : packageNotePlugin,
+    cleanPlugin({}),
+  ],
   target: [ "chrome58" , "firefox57", "safari11", "edge18" ],
 };
 
