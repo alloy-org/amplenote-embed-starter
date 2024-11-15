@@ -16,20 +16,27 @@ const packageNotePlugin = {
       if (errors.length > 0) {
         console.error(errors);
       } else {
-        const [ file ] = outputFiles;
+        let htmlContent = fs.readFileSync(path.join("assets", "embed.html"), "utf8");
 
-        const base64JavascriptContent = Buffer.from(file.text).toString("base64");
-        const htmlContent = fs.readFileSync(path.join("assets", "embed.html"), "utf8")
-          .replace("__BASE64JAVASCRIPTCONTENT__", base64JavascriptContent);
+        for (const file of outputFiles) {
+          const { path: outputPath } = file;
+          if (outputPath.match(/\.js$/)) {
+            const base64JavascriptContent = Buffer.from(file.text).toString("base64");
+            htmlContent = htmlContent.replace("__BASE64JAVASCRIPTCONTENT__", base64JavascriptContent);
+          } else if (outputPath.match(/\.css$/)) {
+            const base64CssContent = Buffer.from(file.text).toString("base64");
+            htmlContent = htmlContent.replace("__BASE64CSSCONTENT__", base64CssContent);
+          }
+        }
 
         const markdownContent = fs.readFileSync(path.join("assets", "note.md"), "utf8");
 
         const zip = new JSZip();
         zip.file("build.html.json", htmlContent);
         zip.file("note.md", markdownContent);
-        const zipContent = await zip.generateAsync({ type: "nodebuffer" });
 
-        const outputDirectory = path.dirname(file.path);
+        const zipContent = await zip.generateAsync({ type: "nodebuffer" });
+        const outputDirectory = path.dirname(outputFiles[0].path);
 
         if (!fs.existsSync(outputDirectory)) {
           fs.mkdirSync(outputDirectory);
@@ -56,7 +63,10 @@ const serveBuildPlugin = {
         outputFiles.forEach(file => {
           const { path: outputPath } = file;
 
-          if (outputPath.match(/\.js$/)) {
+          if (outputPath.match(/\.css$/)) {
+            const cssPath = path.join(path.dirname(outputPath), "index.css");
+            fs.writeFileSync(cssPath, file.text);
+          } else if (outputPath.match(/\.js$/)) {
             const javascriptPath = path.join(path.dirname(outputPath), "index.js");
             fs.writeFileSync(javascriptPath, file.text);
 
