@@ -51,12 +51,18 @@ function useOnChange(setIsSaving) {
 }
 
 export default function Embed() {
+  const [ isReadonly, setIsReadonly ] = useState(false);
   const [ isSaving, setIsSaving ] = useState(false);
 
   const { status, value: initialData } = useAsyncEffect(
     async () => {
-      const data = await window.callAmplenotePlugin("load");
-      return data ? JSON.parse(data) : null;
+      const response = await window.callAmplenotePlugin("load");
+      if (response) {
+        if (response.readonly) setIsReadonly(true);
+        return JSON.parse(response.data);
+      } else {
+        return null;
+      }
     },
     []
   );
@@ -72,6 +78,7 @@ export default function Embed() {
           <Excalidraw
             initialData={ initialData }
             onChange={ onChange }
+            viewModeEnabled={ isReadonly }
           />
           {
             isSaving
