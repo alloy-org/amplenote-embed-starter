@@ -77,7 +77,7 @@ export default function Embed() {
   const onMount = useOnMount(setIsSaving);
 
   if (status === "loading") {
-    return (<div>loading</div>);
+    return (<div className="loading-spinner" />);
   } else {
     return (
       <div className="container">

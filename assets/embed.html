@@ -2,10 +2,29 @@
 <html lang="en">
   <head>
       <meta charset="utf-8" />
+      <style>
+          .loading-spinner {
+              animation: loading-spin 0.8s linear infinite;
+              border: 3px solid rgba(133, 147, 163, 0.25);
+              border-radius: 50%;
+              border-top-color: #8593A3;
+              box-sizing: border-box;
+              height: 36px;
+              left: 50%;
+              margin: -18px 0 0 -18px;
+              position: fixed;
+              top: 50%;
+              width: 36px;
+          }
+
+          @keyframes loading-spin {
+              to { transform: rotate(360deg); }
+          }
+      </style>
       <link href="data:text/css;base64,__BASE64CSSCONTENT__" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root"><div class="loading-spinner"></div></div>
     <script type="text/javascript" src="data:text/javascript;base64,__BASE64JAVASCRIPTCONTENT__"></script>
   </body>
 </html>
