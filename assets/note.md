@@ -38,6 +38,15 @@ The source code that is built into the `build.html.json` file below can be [foun
   },
 
   async renderEmbed(app) {
+    if (app.context.setEmbedHTML) {
+      app.context.setEmbedHTML(`
+        <div style="display: flex; align-items: center; justify-content: center; height: 100%; width: 100%;">
+          <div style="width: 32px; height: 32px; border: 3px solid rgba(128, 128, 128, 0.3); border-top-color: rgba(128, 128, 128, 0.9); border-radius: 50%; animation: amplenote-embed-spin 0.8s linear infinite;"></div>
+          <style>@keyframes amplenote-embed-spin { to { transform: rotate(360deg); } }</style>
+        </div>
+      `);
+    }
+
     try {
       const attachments = await app.getNoteAttachments(app.context.pluginUUID);
       const attachment = attachments.find(attachment => attachment.name === "build.html.json");
