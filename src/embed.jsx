@@ -7,6 +7,9 @@ import "tldraw/tldraw.css"
 import "./embed.css"
 
 // --------------------------------------------------------------------------
+const LICENSE_KEY = "tldraw-2026-07-24/WyJVVEs4cnRscyIsWyIqIl0sMTYsIjIwMjYtMDctMjQiXQ.mmiKy/61JK9pUsLd/dcHCHYMFMFOJVIeS1KBtAku7MZU9LjXuUyGXsakVfYJHp+Xpm+GoE8Ks5QL3DqucLprRQ";
+
+// --------------------------------------------------------------------------
 function useOnMount(setIsSaving) {
   // So we can keep track of overlapping pending saves to know when there is no pending save remaining
   const saveCounterRef = useRef(1);
@@ -81,7 +84,7 @@ export default function Embed() {
   } else {
     return (
       <div className="container">
-        <Tldraw onMount={ editor => onMount(editor, initialSnapshot) } />
+        <Tldraw licenseKey={ LICENSE_KEY } onMount={ editor => onMount(editor, initialSnapshot) } />
         {
           isSaving
             ? (<div className="saving-message">saving...</div>)
