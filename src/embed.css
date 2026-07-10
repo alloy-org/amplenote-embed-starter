@@ -1,3 +1,19 @@
-h1 {
-  color: blue;
+body {
+  margin: 0;
+}
+
+.container {
+  position: fixed;
+  inset: 0;
+}
+
+.saving-message {
+  bottom: 8px;
+  color: #8593A3;
+  font-size: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  position: absolute;
+  pointer-events: none;
+  z-index: 1000;
 }

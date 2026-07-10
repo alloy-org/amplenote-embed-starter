@@ -4,9 +4,16 @@
     <meta charset="utf-8" />
     <link href="./index.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript">
-      // `window.callAmplenotePlugin` will be defined in the real embed environment
-      window.callAmplenotePlugin = function(...args) {
-        console.log("window.callAmplenotePlugin", args);
+      // `window.callAmplenotePlugin` will be defined in the real embed environment. This mock persists to
+      // local storage so drawings survive a reload during development.
+      window.callAmplenotePlugin = function(type, data) {
+        if (type === "load") {
+          return localStorage.getItem("data");
+        } else if (type === "change") {
+          localStorage.setItem("data", data);
+
+          return true;
+        }
       }
     </script>
   </head>

@@ -95,7 +95,7 @@ const buildOptions = {
   outdir: "build",
   sourceRoot: "src",
   plugins: [ IS_DEV ? serveBuildPlugin : packageNotePlugin ],
-  target: [ "chrome58" , "firefox57", "safari11", "edge16" ],
+  target: [ "chrome109", "firefox110", "safari16", "edge119" ],
 };
 
 if (IS_DEV) {
