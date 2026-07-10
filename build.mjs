@@ -42,6 +42,9 @@ const packageNotePlugin = {
           fs.mkdirSync(outputDirectory);
         }
 
+        fs.writeFileSync(path.join(outputDirectory, "build.html.json"), htmlContent);
+        fs.writeFileSync(path.join(outputDirectory, "note.md"), markdownContent);
+
         const zipPath = path.join(outputDirectory, "plugin.zip");
         fs.writeFileSync(zipPath, zipContent);
       }
