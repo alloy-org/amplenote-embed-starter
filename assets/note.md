@@ -3,8 +3,8 @@
 |||
 |-|-|
 |name|tldraw|
-|description|Draw content from within a note.|
-|icon|brush|
+|description|Draw content in a note.|
+|icon|draw|
 \
 
 The source code that is built into the `build.html.json` file below can be [found at GitHub](https://github.com/alloy-org/amplenote-embed-starter/tree/tldraw).
