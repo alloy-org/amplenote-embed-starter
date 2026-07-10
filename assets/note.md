@@ -21,7 +21,7 @@ The source code that is built into the `build.html.json` file below can be [foun
   },
 
   async insertText(app) {
-    await app.context.replaceSelection(`<object data="plugin://${ app.context.pluginUUID }" data-aspect-ratio="2" />`);
+    await app.context.replaceSelection(`<object data="plugin://${ app.context.pluginUUID }" data-aspect-ratio="1" />`);
     return null;
   },
 
