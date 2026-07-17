@@ -7,7 +7,7 @@ import "tldraw/tldraw.css"
 import "./embed.css"
 
 // --------------------------------------------------------------------------
-const LICENSE_KEY = "tldraw-2026-07-24/WyJVVEs4cnRscyIsWyIqIl0sMTYsIjIwMjYtMDctMjQiXQ.mmiKy/61JK9pUsLd/dcHCHYMFMFOJVIeS1KBtAku7MZU9LjXuUyGXsakVfYJHp+Xpm+GoE8Ks5QL3DqucLprRQ";
+const LICENSE = atob("dGxkcmF3LWpvcmRhbi1waGlsbGlwcy0yMDI3LTA3LTE3L1d5SkpZamN4YUVwTGRTSXNXeUlxTG1GdGNHeGxibTkwWlM1amIyMGlYU3c1TENJeU1ESTNMVEEzTFRFM0lsMC5STU1DeVBlbXVZaW1DaXFweVEvSjU2VDZya0xKYkU2T0ZFaHVvTDlLeFBNN3QycmF3SmtGWnBqdFQ1Y21wNjY5amRIb2htWVZEUm1raWFSbmZuTzZEQQ==");
 
 // --------------------------------------------------------------------------
 function useOnMount(setIsSaving) {
@@ -84,7 +84,7 @@ export default function Embed() {
   } else {
     return (
       <div className="container">
-        <Tldraw licenseKey={ LICENSE_KEY } onMount={ editor => onMount(editor, initialSnapshot) } />
+        <Tldraw licenseKey={ LICENSE } onMount={ editor => onMount(editor, initialSnapshot) } />
         {
           isSaving
             ? (<div className="saving-message">saving...</div>)
