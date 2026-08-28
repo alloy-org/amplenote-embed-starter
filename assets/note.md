@@ -2,10 +2,10 @@
 
 |||
 |-|-|
-|name|tldraw|
-|description|Draw content in a note.|
+|**name**|**tldraw**|
+|description|Sketch, diagram, and whiteboard on an infinite tldraw canvas, right inside your notes|
 |icon|draw|
-|instructions|You can invoke tldraw in two ways: You can use the evaluation brackets `{tldraw}` to insert a tldraw canvas inline in your note. This will be persisted (saved) if you leave the note and return to it.<br /><br />You can also use Cmd-O to invoke Quick Open, and enter "tldraw" to choose the plugin action, which will open a tldraw window in the Peek Viewer. Drawings made in Peek Viewer will be kept if you minimize the Peek Viewer window, but will be deleted when you close the tldraw Peek Viewer window, so it's a less permanent drawing compared to entering `{tldraw}`.<br /><br />tldraw drawings are currently saved in the URL of the iframe. This may cause issues if very large drawings are created. You can always export your drawing to an image within tldraw, which has the side benefit that the image will show in a public note.|
+|instructions|Sketch, diagram, and whiteboard directly inside your notes with [tldraw](https://tldraw.dev/), an infinite canvas that lives in the note itself. Nothing leaves your account: the drawing is stored with the note, not on a third-party server.<br /><br /><mark>**Two ways to draw**</mark><br /><br />1. **Inline in a note (permanent).** Type the evaluation brackets `{tldraw}` in a note to drop a canvas in at the cursor. Whatever you draw is saved back into the note, so it is waiting for you the next time you open the note, on any device.<br />2. **Quick Open (scratch pad).** Press `Cmd-O` (`Ctrl-O` on Windows &amp; Linux) to bring up Quick Open, type "tldraw," and pick the plugin action to open a canvas in the Peek Viewer. A Peek Viewer drawing survives minimizing the window, but is discarded when you close it — handy for a quick sketch you do not intend to keep.<br /><br /><mark>**What you can put on the canvas**</mark><br /><br />1. **Freehand drawing**, with pressure sensitivity for stylus users, plus a highlighter and an eraser.<br />2. **Shapes, lines, and arrows** that snap to each other and stay attached when you move things around.<br />3. **Text and sticky notes**, for labeling a diagram or laying out ideas.<br />4. **Images**, pasted or dragged straight onto the canvas.<br />5. **Frames and multiple pages**, to keep a sprawling drawing organized.<br />6. **Styling** — color, fill, dash style, size, and font — from the style panel beside the toolbar.<br /><br />The usual tldraw shortcuts apply: `V` to select, `D` to draw, `E` to erase, `T` for text, `N` for a sticky note, and `Cmd-Z` to undo. The canvas is infinite — scroll or pinch to pan, and hold `Cmd` while scrolling to zoom.<br /><br /><mark>**Saving**</mark>: edits save automatically about a second after you stop drawing. A small "saving…" indicator sits at the bottom of the canvas while a save is in flight; let it disappear before navigating away from a big change.<br /><br /><mark>**Limitations**</mark>: the drawing is stored as data alongside the embed rather than as a picture, which means a very large or very detailed drawing can run into size limits, and the canvas will not render in a published (public) note. In either case, use tldraw's menu in the top-left corner → **Export as** → **PNG** or **SVG** to place a flat image in the note instead.|
 \
 
 The source code that is built into the `build.html.json` file below can be [found at GitHub](https://github.com/alloy-org/amplenote-embed-starter/tree/tldraw).
@@ -16,8 +16,9 @@ The source code that is built into the `build.html.json` file below can be [foun
 
 ```javascript
 ({
-  appOption(app) {
-    app.openSidebarEmbed(1);
+  async appOption(app) {
+    await app.openEmbed();
+    await app.navigate("https://www.amplenote.com/notes/plugins/" + app.context.pluginUUID);
   },
 
   async insertText(app) {
